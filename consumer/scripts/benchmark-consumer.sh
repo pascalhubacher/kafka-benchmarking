@@ -107,21 +107,23 @@ function run_benchmark {
   echo_out "starting consumer performance test"
 	
   # first, print out the final cmd before executing it
-  echo -e "Consumer perf test cmd:\n"	\
+  echo_out -e "Consumer perf test cmd:\n"	\
     $KAFKA_BENCHMARK_CMD --topic $TOPICNAME \
     --messages $MESSAGES \
     --fetch-size $FETCH_SIZE \
     --consumer.config ${CONSUMER_CONFIG_FILE} \
     --group ${CONSUMER_GROUP_ID} \
-    --bootstrap-server $BROKER_LIST "\n" 
-  
+    --bootstrap-server $BROKER_LIST "\n"
+
+  # output $CONSUMER_CONFIG_FILE and write it to the outputfile
+  echo $CONSUMER_CONFIG_FILE | tee -a $OUTPUT_FILENAME_TXT
+
   $KAFKA_BENCHMARK_CMD --topic $TOPICNAME \
     --messages $MESSAGES \
     --fetch-size $FETCH_SIZE \
     --consumer.config $CONSUMER_CONFIG_FILE \
     --group ${CONSUMER_GROUP_ID} \
-    --bootstrap-server $BROKER_LIST  $REDIRECT_OUTPUT | tee -a "$(dirname "$(readlink -f "$0")")"/output/$OUTPUT_FILENAME
-  
+    --bootstrap-server $BROKER_LIST | tee -a $OUTPUT_FILENAME_TXT
 }
 
 function exit_out {

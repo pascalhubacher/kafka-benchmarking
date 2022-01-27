@@ -115,8 +115,8 @@ function run_benchmark {
     --group ${CONSUMER_GROUP_ID} \
     --bootstrap-server $BROKER_LIST "\n"
 
-  # output $CONSUMER_CONFIG_FILE and write it to the outputfile
-  cat $CONSUMER_CONFIG_FILE | tee -a $OUTPUT_FILENAME_TXT
+  # write $CONSUMER_CONFIG_FILE to the outputfile
+  cat $CONSUMER_CONFIG_FILE >> $OUTPUT_FILENAME_TXT
 
   $KAFKA_BENCHMARK_CMD --topic $TOPICNAME \
     --messages $MESSAGES \
